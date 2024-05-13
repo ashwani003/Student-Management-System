@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Management</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{~/forms/css/data.css}">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" th:href="@{~/template/css/style.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{~/forms/js/data.js}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="table-wrapper">
+        <div class="table-title">
+            <div class="col-sm-8"><h2><b>Student Management System</b></h2></div>
+            <div class="row">
+                <form th:action="@{/save}"  id="register-form" method="post" th:object="${student}">
+                <div id="formContainer" style="display : inline-flex; justify-content: space-around;">
+                    <div style="width: 45%;">
+                    <input type="text" id="studID" hidden="false" th:field="*{studID}">
+                    <label for="nameInput">Name:</label>
+                    <input type="text" id="nameInput" placeholder="Enter your name" th:field="*{name}">
+                    <label for="numberInput">Mobile Details:</label>
+                    <input type="text" id="numberInput" placeholder="Enter your mobile details" th:field="*{mobileNum}">
+                    <label for="emailInput">Email Id:</label>
+                    <input type="email" id="emailInput" placeholder="Enter your email" th:field="*{emailID}">
+                    </div>
+                    <div style="width: 45%;">
+                    <label for="branch">Branch:</label>
+                    <select  id="branch" th:field="*{branch}">
+                        <option th:name="CSE" th:value="CSE"  th:text="CSE">CSE</option>
+                        <option th:name="IT" th:value="IT"  th:text="IT">IT</option>
+                        <option  th:name="ECE" th:value="ECE"  th:text="ECE">ECE</option>
+                        <option th:name="ME"  th:value="ME"  th:text="ME">ME</option>
+                    </select>
+                   <label for="gender">Gender:</label>
+                    <select  id="gender" th:field="*{gender}">
+                        <option th:name="MALE" th:value="MALE"  th:text="MALE">MALE</option>
+                        <option th:name="FEMALE" th:value="FEMALE"  th:text="FEMALE">FEMALE</option>
+                        <option th:name="OTHERS"  th:value="OTHERS"  th:text="OTHERS">OTHERS</option>
+                    </select>
+                    <label for="dob">DoB</label>
+                    <input type="date" id="dob" placeholder="yyyy-MM-dd"  th:field="*{dob}">
+                        <div th:if="${edit}">
+                            <button>Edit</button>
+                        </div>
+                        <div th:unless="${edit}">
+                            <button>Submit</button>
+                        </div>
+                    </div>
+                    <!--<input type="submit" name="register" id="register"  value="Submit"/>-->
+                </div>
+
+                </form>
+            </div>
+
+        </div>
+        <table id="outputTable">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Branch</th>
+                <th>Gender</th>
+                <th>DOB</th>
+                <th>Mobile</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="data : ${datas}">
+                <tr>
+                    <td><th:block th:text="${data.studID}"/></td>
+                    <td><th:block th:text="${data.name}"/></td>
+                    <td><th:block th:text="${data.branch}"/></td>
+                    <td><th:block th:text="${data.gender}"/></td>
+                    <td><th:block th:text="${data.dob}"/></td>
+                    <td><th:block th:text="${data.mobileNum}"/></td>
+                    <td><th:block th:text="${data.emailID}"/></td>
+                    <td>
+                        <a th:href="@{'/editByID/' + ${data.studID}}" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                        <a th:href="@{'/deleteByID/' + ${data.studID}}" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
